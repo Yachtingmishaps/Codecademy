@@ -1,1 +1,133 @@
-https://gist.github.com/fd7732a857a52af469fe555dc8a07293
+import random
+
+money = 100
+
+#Write your game of chance functions here
+
+#coinflip function
+def coin_flip(call,stake):
+  if stake > money:
+    print("You don't have enoough money to make that bet, lower your stake!")
+    return 0
+  else:
+    call = call.lower()
+    if call.endswith("!"):
+      call = call[:len(call)-1] 
+      print(call)
+    print("Thanks for playing coin flip!")
+    outcome = random.randint(1,2)
+    #1 is heads and 2 is tails
+    if outcome == 1 and call == "heads":
+      print('''You called correctly!''')
+      print("You win " + str(stake) + " bucks")
+      return stake
+    elif outcome == 2 and call == "tails":
+      print('''You called correctly!''')
+      print("You win " + str(stake) + " bucks")
+      return stake
+    else:
+      print("Bad luck, you called incorrectly.")
+      print("You lose " + str(stake) + " bucks")
+      return stake * -1
+  
+def cho_han(prediction,stake):
+    result = random.randint(1,6) + random.randint(1,6)
+    if result % 2 == 0 and prediction == "Even":
+      print("The sum of the two dice is " + str(result) + "!")
+      print("Well done, you predicted the correct outcome!")
+      print("You win " + str(stake) + " bucks")
+      return stake
+    elif result % 2 == 1 and prediction == "Odd":
+      print("The sum of the two dice is " + str(result) + "!")
+      print("Well done, you predicted the correct outcome!")
+      print("You win " + str(stake) + " bucks")
+      return stake
+    else:
+      print("The sum of the two dice is " + str(result))
+      print("Bad luck, you made the wrong choice.")
+      print("You lose " + str(stake) + " bucks")
+      return stake * -1
+
+def card_draw(stake):
+  one_to_thirteen = []
+  for i in range(1,14):
+    one_to_thirteen.append(i)
+  deck_of_cards = one_to_thirteen * 4
+  player_card = deck_of_cards[random.randint(0,len(deck_of_cards)-1)]
+  deck_of_cards.remove(player_card)
+  if player_card < 11:
+    print("You drew a " + str(player_card))
+  elif player_card == 11:
+    print("You drew a Jack")
+  elif player_card == 12:
+    print("You drew a Queen")
+  else:
+    print("You drew a King")
+  house_card = deck_of_cards[random.randint(0,len(deck_of_cards)-1)]
+  deck_of_cards.remove(house_card)
+  if house_card < 11:
+    print("The dealer drew a " + str(house_card))
+  elif house_card == 11:
+    print("The dealer drew a Jack")
+  elif house_card == 12:
+    print("The dealer drew a Queen")
+  else:
+    print("The dealer drew a King")
+  if player_card > house_card:
+    print("Congratulations!")
+    print("You win " + str(stake) + " bucks")
+    return stake
+  elif player_card < house_card:
+    print("Que mala suerte.")
+    print("You lose " + str(stake) + " bucks")
+    return stake * -1 
+  else:
+    print("Amazing, it's a draw!")
+    print("We will return your stake.")
+    return 0
+  
+#guess can be "Odd", "Even", or a specific number
+def roulette(guess,stake):
+  outcome = random.randint(1,38)
+  if (outcome < 37):
+    if guess == "Odd" and outcome % 2 == 1:
+      print("It landed on " + str(outcome) + "!")
+      print("Congratulations, you win!")
+      print("You win " + str(stake) + " bucks")
+      return stake
+    elif guess == "Even" and outcome % 2 == 0:
+      print("It landed on " + str(outcome) + "!")
+      print("Congratualtions, you win!")
+      print("You win " + str(stake) + " bucks")
+      return stake
+    elif guess == outcome:
+      winnings = stake * 35
+      print("It landed on " + str(outcome) + "!")
+      print("Congratulations, you win!")
+      print("You win " + str(winnings) + " bucks")
+      return stake * 35
+    else:
+      print("It landed on " + str(outcome))
+      print("Bad luck, you lose.")
+      return stake * -1
+  else:
+    if outcome == 37:
+      print("It landed on 0")
+      print("Bad luck, you lose.")
+      return stake * -1
+    else:
+      print("It landed on 00")
+      print("Bad luck, you lose.")
+      return stake * -1
+     
+  
+  
+#Call your game of chance functions here
+money += coin_flip("Heads!",10)
+print("Your new balance is " + str(money))
+money += cho_han("Odd",50)
+print("Your new balance is " + str(money))
+money += card_draw(100)
+print("Your new balance is " + str(money))
+money += roulette(1,10)
+print("Your new balance is " + str(money))
